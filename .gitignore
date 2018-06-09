@@ -57,3 +57,4 @@ debian/preinst.ex
 debian/prerm.ex
 debian/shlibs.local.ex
 debian/watch.ex
+compile

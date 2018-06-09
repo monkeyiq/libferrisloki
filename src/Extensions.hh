@@ -29,7 +29,6 @@
 ******************************************************************************/
 
 #include <sigc++/signal.h>
-#include <sigc++/object.h>
 #include <loki/SmartPtr.h>
 #include <loki/SmallObj.h>
 
