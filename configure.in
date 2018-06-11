@@ -1,4 +1,4 @@
-AC_INIT(ferrisloki, 3.0.13)
+AC_INIT(ferrisloki, 3.1.0)
 
 PACKAGE=$PACKAGE_NAME
 VERSION=$PACKAGE_VERSION
