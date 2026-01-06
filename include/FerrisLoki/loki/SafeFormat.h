@@ -1,4 +1,4 @@
-#include <limits>
+ #include <limits>
 #include <limits.h>
 ////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2005 by Andrei Alexandrescu
@@ -207,7 +207,9 @@ namespace Loki
                 result_ = -1;
                 return *this;
             }
-            const size_t len = std::min(strlen(this->s), prec_);
+//            const size_t len = std::min(strlen(this->s), prec_);
+            const size_t len = 0;
+            
             if (width_ > len) {
                 if (LeftJustify()) {
                     Write(s, s + len);
