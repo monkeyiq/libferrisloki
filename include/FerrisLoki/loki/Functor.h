@@ -25,6 +25,8 @@
 #include "TypeTraits.h"
 #include <typeinfo>
 #include <memory>
+#include <memory>   // Required for std::shared_ptr
+#include <utility>
 
 ///  \defgroup FunctorGroup Function objects
 
@@ -1241,14 +1243,16 @@ namespace Loki
 
         // Member functions
 
-        Functor() : spImpl_(0)
+        Functor() : spImpl_((nullptr_t)0)
         {}
         
         Functor(const Functor& rhs) : spImpl_(Impl::Clone(rhs.spImpl_.get()))
         {}
+
+        Functor(std::shared_ptr<Impl> spImpl) : spImpl_(std::move(spImpl))
+        {
+        }
         
-        Functor(std::unique_ptr<Impl> spImpl) : spImpl_(spImpl)
-        {}
         
         template <typename Fun>
         Functor(Fun fun)
@@ -1260,23 +1264,13 @@ namespace Loki
         : spImpl_(new MemFunHandler<Functor, PtrObj, MemFn>(p, memFn))
         {}
 
-        typedef Impl * (std::unique_ptr<Impl>::*unspecified_bool_type)() const;
+        typedef Impl * (std::shared_ptr<Impl>::*unspecified_bool_type)() const;
 
         operator unspecified_bool_type() const
         {
-            return spImpl_.get() ? &std::unique_ptr<Impl>::get : 0;
+            return spImpl_.get() ? &std::shared_ptr<Impl>::get : 0;
         }
-
-        Functor& operator=(const Functor& rhs)
-        {
-            Functor copy(rhs);
-            // swap unique_ptrs by hand
-            Impl* p = spImpl_.release();
-            spImpl_.reset(copy.spImpl_.release());
-            copy.spImpl_.reset(p);
-            return *this;
-        }
-
+        
 #ifdef LOKI_ENABLE_FUNCTION
 
         bool empty() const
@@ -1425,7 +1419,7 @@ namespace Loki
         }
 
     private:
-        std::unique_ptr<Impl> spImpl_;
+        std::shared_ptr<Impl> spImpl_;
     };
     
 
@@ -1616,7 +1610,7 @@ namespace Loki
         typedef typename Private::BinderFirstTraits<Fctor>::BoundFunctorType
             Outgoing;
         
-        return Outgoing(std::unique_ptr<typename Outgoing::Impl>(
+        return Outgoing(std::shared_ptr<typename Outgoing::Impl>(
             new BinderFirst<Fctor>(fun, bound)));
     }
 
@@ -1798,7 +1792,7 @@ namespace Loki
 /*         typedef typename Private::BinderLastTraits<Fctor>::BoundFunctorType */
 /*             Outgoing; */
         
-/*         return Outgoing(std::unique_ptr<typename Outgoing::Impl>( */
+/*         return Outgoing(std::shared_ptr<typename Outgoing::Impl>( */
 /*             new BinderLast<Fctor>(fun, bound))); */
 /*     } */
 
@@ -1974,7 +1968,7 @@ namespace Loki
         const Fun1& fun1,
         const Fun2& fun2)
     {
-        return Fun2(std::unique_ptr<typename Fun2::Impl>(
+        return Fun2(std::shared_ptr<typename Fun2::Impl>(
             new Chainer<Fun1, Fun2>(fun1, fun2)));
     }
 

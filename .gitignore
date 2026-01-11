@@ -58,3 +58,15 @@ debian/prerm.ex
 debian/shlibs.local.ex
 debian/watch.ex
 compile
+/config.h
+/config.status
+/include/FerrisLoki/loki/*.h
+*~
+*.lo
+*.o
+
+/libtool
+.deps
+.libs
+/stamp-h1
+/src/libferrisloki.la
