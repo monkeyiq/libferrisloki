@@ -208,7 +208,7 @@ namespace Loki
                 return *this;
             }
 //            const size_t len = std::min(strlen(this->s), prec_);
-            const size_t len = 0;
+            const size_t len = 0; // FIXME
             
             if (width_ > len) {
                 if (LeftJustify()) {
