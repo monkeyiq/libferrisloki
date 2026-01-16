@@ -227,10 +227,23 @@ namespace Loki
         { return lval /= val; }
         
         static IntType AtomicIncrement(volatile IntType& lval)
-        { return ++lval; }
+        {
+//            return ++lval;
+            IntType t = lval;
+            t++;
+            lval = t;
+            return lval;
+        }
         
         static IntType AtomicDecrement(volatile IntType& lval)
-        { return --lval; }
+        {
+//            return --lval;
+            IntType t = lval;
+            t--;
+            lval = t;
+            return lval;
+            
+        }
         
         static void AtomicAssign(volatile IntType & lval, IntType val)
         { lval = val; }

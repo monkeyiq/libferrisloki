@@ -1249,7 +1249,7 @@ namespace Loki
         Functor(const Functor& rhs) : spImpl_(Impl::Clone(rhs.spImpl_.get()))
         {}
 
-        Functor(std::shared_ptr<Impl> spImpl) : spImpl_(std::move(spImpl))
+        Functor(std::shared_ptr<Impl> spImpl) : spImpl_(spImpl)
         {
         }
         

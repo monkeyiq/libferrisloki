@@ -164,7 +164,7 @@ namespace FerrisLoki
 
     public:
 
-        typedef sigc::signal1< void, Handlable* > GenericCloseSignal_t;
+        typedef sigc::signal< void( Handlable* ) > GenericCloseSignal_t;
 
     public: // having the ref_count_t exposed makes language bindings easier.
 
@@ -221,7 +221,7 @@ namespace FerrisLoki
         /**
          * A signal that is emitted when the object is about to die.
          */
-        typedef sigc::signal1< void, ReferenceType > CloseSignal_t;
+        typedef sigc::signal< void ( ReferenceType ) > CloseSignal_t;
     
         CloseSignal_t& getCloseSig()
             {
